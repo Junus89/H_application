@@ -205,7 +205,7 @@ void fifthLoop(double OmegaR,double Omega, double MaX, double MaY, double MaZ, d
 		//SP1T += cexp(-1*z1*RGamma[i]);
 		SP1B = (DT/2)*(z1*Omega*Q[0]*cexp(-1*z1*Omega*RGamma[0])/DORStar[0]);
 		SP1E = (DT/2)*(z1*Omega*Q[TNum-1]*cexp(-1*z1*Omega*RGamma[TNum-1])/DORStar[TNum-1]);
-		SP1 = 0*(SP1T-SP1B-SP1E);
+		SP1 = SP1T-SP1B-SP1E;
 		
 		SP2T += DT*((z1*ka*FRM[i]/DORStar[i]+FRStarM[i]/pow(DORStar[i],2))*cexp(-1*z1*Omega*RGamma[i]));
 		SP2B = (DT/2)*(z1*ka*FRM[0]/DORStar[0]+FRStarM[0]/pow(DORStar[0],2))*cexp(-1*z1*Omega*RGamma[0]);

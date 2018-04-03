@@ -289,7 +289,7 @@ int main()
   printf("Gamma = %lf\n",Gamma);
 
  
-  double *Area,**UnitNormal;
+  double *Area, **UnitNormal;
   Area = make_vector(Area,DSNum);
   UnitNormal = make_dmatrix(DSNum,3);
   for(int m=0;m<DSNum;m++)
@@ -378,9 +378,10 @@ int main()
 	/*SP1=0.0 + 0.0*I;
 	SP2=0.0 + 0.0*I;
 	SP3=0.0 + 0.0*I;*/
-  FILE *fwriteSP1,*fpPB1;
+  FILE *fwriteSP1,*fpPB1,*fpPB2;
   fwriteSP1 = fopen("PBD1.txt","w");	
 	fpPB1 = fopen("PB1.txt","w");	
+	fpPB2 = fopen("PB2.txt","w");	
 
 	
   for(int n =0; n<FNum;n++)
@@ -403,11 +404,11 @@ int main()
 		  OY = YO[m];// the first value of YO vector
 		  OZ = ZO[m];// the first value of ZO vector
 
-		  
+		  /*
 		  double complex Transa1 = 0.0 + 0.0*I;
 		  double complex Transb1 = 0.0 + 0.0*I;
 		  double complex Transc1 = 0.0 + 0.0*I;
-
+*/
 		  double complex Transa2 = 0.0 + 0.0*I;
 		  double complex Transb2 = 0.0 + 0.0*I;
 		  double complex Transc2 = 0.0 + 0.0*I;
@@ -417,12 +418,14 @@ int main()
 		  for(int k=0;k<BNum;k++)
 		  {
 			  Theta = 2*((k+1)-1)*PI/BNum; // Theta = 2*(k-1)*PI/BNum;
-			  
+			  double complex Transa1 = 0.0 + 0.0*I;
+			  double complex Transb1 = 0.0 + 0.0*I;
+			  double complex Transc1 = 0.0 + 0.0*I;
 		  
 		  		for(int j=0;j<DSNum;j++)
 		  	  	{
 		  				printf("Harmonic number %d, Observer number %d, Blade number %d, Source number %d\n",n,m+1,k+1,j+1); // since m, k, j starts from zero, add it with 1
-					
+					    printf("------checking-----: k = %d\n",k);
 							DX=DSX[j];
 							DY=DSY[j];
 							DZ=DSZ[j];
@@ -471,15 +474,15 @@ int main()
 							
 
 							
-						 /* Transa2 += PB1[n][m][k];
+						 	Transa2 += PB1[n][m][k];
 							Transb2 += PB2[n][m][k];
-							Transc2 += PB3[n][m][k]; */
+							Transc2 += PB3[n][m][k]; 
 						 
 							
-							
+							/*
 						  Transa2 = PB1[n][m][k];
 							Transb2 = PB2[n][m][k];
-							Transc2 = PB3[n][m][k]; 
+							Transc2 = PB3[n][m][k]; */
 						
 						
 						printf("PB1[%d][%d][%d] = %g + %g\n",n,m,k,creal(PB1[n][m][k]),cimag(PB1[n][m][k]));
@@ -487,6 +490,7 @@ int main()
         		printf("PB3[%d][%d][%d] = %g + %g\n",n,m,k,creal(PB3[n][m][k]),cimag(PB3[n][m][k]));
 					
 				    fprintf(fpPB1,"%12.10f	%12.10f\n",creal(PB1[n][m][k]),cimag(PB1[n][m][k]));
+						fprintf(fpPB2,"%12.10f	%12.10f\n",creal(PB2[n][m][k]),cimag(PB2[n][m][k]));
 			}
 			//printf(" Transa2 = %g + %gi\n",creal(Transa2),cimag(Transa2));
 			
@@ -510,7 +514,7 @@ int main()
 	  
 
   }
-	fclose(fwriteSP1);fclose(fpPB1);
+	fclose(fwriteSP1);fclose(fpPB1);fclose(fpPB2);
 	
 	/*
 	for(int n=2;n<FNum;n++){
@@ -751,6 +755,7 @@ int main()
   printf("------checking-----: UnitNormal[DSNum-1][1] = %g\n",UnitNormal[DSNum-1][1]);
   printf("------checking-----: UnitNormal[0][2] = %g\n",UnitNormal[0][0]);
   printf("------checking-----: UnitNormal[DSNum-1][2] = %g\n",UnitNormal[DSNum-1][2]);
+
 
   
  /* printf("------checking-----: PBD1[34][1][1][1] = %g\n",PBD1[34][0][0][0]);
